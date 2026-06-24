@@ -2,6 +2,6 @@
 {
     public interface ISaveDbService
     {
-        public void SaveDbChanges();
+        public Task SaveDbChanges();
     }
 }

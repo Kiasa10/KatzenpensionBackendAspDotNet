@@ -1,5 +1,6 @@
 ﻿using KatzenpensionApi.Data;
 using KatzenpensionApi.Dtos.RegularGuests;
+using KatzenpensionApi.Repositories.Mappings;
 using Microsoft.EntityFrameworkCore;
 
 namespace KatzenpensionApi.Repositories.RegularGuest
@@ -8,14 +9,8 @@ namespace KatzenpensionApi.Repositories.RegularGuest
     {
         public async Task<List<RegularGuestDto>> GetAllGuests()
         {
-            return await context.RegularGuests.Select(g => new RegularGuestDto(
-                g.Id,
-                g.Name,
-                g.Age,
-                g.ImageUrlReact,
-                g.ImageUrlAngular,
-                g.DescriptionShort,
-                g.DescriptionLong)).ToListAsync();
+            var guests = await context.RegularGuests.ToListAsync();
+            return guests.Select(g => g.ToDto()).ToList();
         }
     }
 }

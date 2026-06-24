@@ -1,4 +1,5 @@
-﻿using KatzenpensionApi.ApiDtos.ResponseDtos;
+﻿using KatzenpensionApi.ApiDtos.Mappings;
+using KatzenpensionApi.ApiDtos.ResponseDtos;
 using KatzenpensionApi.Services.RoomService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,16 +13,7 @@ namespace KatzenpensionApi.Controllers
         public async Task<ActionResult<List<RoomResponseDto>>> GetAllRooms()
         {
             var rooms = await roomService.GetAllRooms();
-
-            var response = rooms.Select(r => new RoomResponseDto(
-                Id: r.Id,
-                Title: r.Title,
-                Cost: r.Cost,
-                ImageUrlReact: r.ImageUrlReact,
-                ImageUrlAngular: r.ImageUrlAngular,
-                DescriptionShort: r.DescriptionShort,
-                DescriptionLong: r.DescriptionLong,
-                CatsPossible: r.CatsPossible)).ToList();
+            var response = rooms.Select(r => r.ToResponseDto()).ToList();
 
             return Ok(response);
         }

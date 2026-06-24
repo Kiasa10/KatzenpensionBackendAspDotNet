@@ -1,6 +1,6 @@
 ﻿using KatzenpensionApi.Data;
-using KatzenpensionApi.Data.Models;
 using KatzenpensionApi.Dtos.Comments;
+using KatzenpensionApi.Repositories.Mappings;
 using Microsoft.EntityFrameworkCore;
 
 namespace KatzenpensionApi.Repositories.Comment
@@ -9,37 +9,17 @@ namespace KatzenpensionApi.Repositories.Comment
     {
         public async Task<List<CommentDto>> GetAllComments()
         {
-            return await context.Comments.Select(c => new CommentDto(
-                c.Id,
-                c.Date,
-                c.Headline,
-                c.Author,
-                c.Content,
-                c.ImagePath)).ToListAsync();
+            var comments = await context.Comments.ToListAsync();
+            return comments.Select(c => c.ToDto()).ToList();
         }
 
         public async Task<CommentDto?> CreateComment(CreateCommentWithDateDto createComment)
         {
-            Guid id = Guid.NewGuid();
-            var newComment = new CommentModel
-            {
-                Id = id,
-                Date = createComment.Date,
-                Headline = createComment.Headline,
-                Author = createComment.Author,
-                Content = createComment.Content,
-                ImagePath = createComment.ImagePath,
-            };
+            var newComment = createComment.ToModel();
 
             await context.Comments.AddAsync(newComment);
 
-            return new CommentDto(
-                newComment.Id,
-                newComment.Date,
-                newComment.Headline,
-                newComment.Author,
-                newComment.Content,
-                newComment.ImagePath);
+            return newComment.ToDto();
         }
 
         public async Task<CommentDto?> GetCommentById(Guid id)
@@ -51,16 +31,7 @@ namespace KatzenpensionApi.Repositories.Comment
                 return null;
             }
 
-            var foundComment = new CommentDto(
-                comment.Id,
-                comment.Date,
-                comment.Headline,
-                comment.Author,
-                comment.Content,
-                comment.ImagePath
-                );
-
-            return foundComment;
+            return comment.ToDto();
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using KatzenpensionApi.ApiDtos.RequestDtos;
+﻿using KatzenpensionApi.ApiDtos.Mappings;
+using KatzenpensionApi.ApiDtos.RequestDtos;
 using KatzenpensionApi.ApiDtos.ResponseDtos;
-using KatzenpensionApi.Dtos.Comments;
 using KatzenpensionApi.Services.CommentService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,16 +14,7 @@ namespace KatzenpensionApi.Controllers
         public async Task<ActionResult<List<CommentResponseDto>>> GetAllComments()
         {
             var comments = await commentService.GetAllComments();
-
-            var response = comments.Select(
-                c => new CommentResponseDto(
-                Id: c.Id,
-                Date: c.Date,
-                Headline: c.Headline,
-                Author: c.Author,
-                Content: c.Content,
-                ImagePath: c.ImagePath
-                )).ToList();
+            var response = comments.Select(c => c.ToResponseDto()).ToList();
 
             return Ok(response);
         }
@@ -37,42 +28,24 @@ namespace KatzenpensionApi.Controllers
             {
                 return BadRequest();
             }
-            var response = new CommentResponseDto(
-                comment.Id,
-                comment.Date,
-                comment.Headline,
-                comment.Author,
-                comment.Content,
-                comment.ImagePath);
 
-            return Ok(response);
+            return Ok(comment.ToResponseDto());
         }
 
         [HttpPost]
         public async Task<ActionResult> CreateComment(CreateCommentRequestDto createComment)
         {
-            var comment = new CreateCommentDto(
-                createComment.Headline,
-                createComment.Author,
-                createComment.Content,
-                createComment.ImagePath);
+            var comment = createComment.ToServiceDto();
+            var createdComment = await commentService.CreateComment(comment);
 
-            var c = await commentService.CreateComment(comment);
-
-            if (c is null)
+            if (createdComment is null)
             {
                 return BadRequest("Comment could not be created");
             }
 
-            var response = new CommentResponseDto(
-                c.Id,
-                c.Date,
-                createComment.Headline,
-                createComment.Author,
-                createComment.Content,
-                createComment.ImagePath);
+            var response = createdComment.ToResponseDto();
 
-            return CreatedAtAction(nameof(GetCommentById), new { id = c.Id }, response);
+            return CreatedAtAction(nameof(GetCommentById), new { id = response.Id }, response);
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using KatzenpensionApi.Data;
 using KatzenpensionApi.Dtos.Rooms;
+using KatzenpensionApi.Repositories.Mappings;
 using Microsoft.EntityFrameworkCore;
 
 namespace KatzenpensionApi.Repositories.Room
@@ -8,16 +9,8 @@ namespace KatzenpensionApi.Repositories.Room
     {
         public async Task<List<RoomDto>> GetAllRooms()
         {
-            return await context.Rooms.Select(r => new RoomDto(
-                r.Id,
-                r.Title,
-                r.Cost,
-                r.ImageUrlReact,
-                r.ImageUrlAngular,
-                r.DescriptionShort,
-                r.DescriptionLong,
-                r.CatsPossible))
-                .ToListAsync();
+            var rooms = await context.Rooms.ToListAsync();
+            return rooms.Select(r => r.ToDto()).ToList();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace KatzenpensionApi.Services.CommentService
                 createComment.ImagePath);
 
             var response = await commentRepo.CreateComment(comment);
-            saveDbService.SaveDbChanges();
+            await saveDbService.SaveDbChanges();
 
             return response;
         }
