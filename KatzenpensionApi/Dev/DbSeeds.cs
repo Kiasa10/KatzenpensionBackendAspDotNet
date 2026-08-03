@@ -16,7 +16,7 @@ namespace KatzenpensionApi.Dev
                 context.Comments.ExecuteDeleteAsync().GetAwaiter().GetResult();
 
                 //For React, disable when using Angular
-               //   TriggerNextJsImageReset();
+                  TriggerNextJsImageReset();
             }
 
             if (context.Bookings.Any())

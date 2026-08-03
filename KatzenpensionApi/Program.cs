@@ -24,17 +24,17 @@ builder.Services.AddCors(options =>
                       policy =>
                       {
                           /*   
-                           *   ANGULAR: */
+                           *   ANGULAR: 
                           policy.WithOrigins("http://localhost:4200",
                                                  "https://localhost:4200").AllowAnyMethod().AllowAnyHeader();
-                          
+                          */
 
                           /*
                            REACT:
-                           
+                           */
                           policy.WithOrigins("http://localhost:3000",
                                              "https://localhost:3000");
-                          */
+                          
                       });
 });
 
