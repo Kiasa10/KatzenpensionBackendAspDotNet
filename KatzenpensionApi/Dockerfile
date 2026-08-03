@@ -16,6 +16,9 @@ WORKDIR /app
 
 COPY --from=build /app/out .
 
+# Verhindert den "inotify limit"-Crashes auf Cloud-Servern wie Render
+ENV DOTNET_hostBuilder__reloadConfigOnChange=false
+
 # Port für Render setzen
 ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
