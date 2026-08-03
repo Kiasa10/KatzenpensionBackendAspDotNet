@@ -33,7 +33,11 @@ builder.Services.AddCors(options =>
                            REACT:
                            */
                           policy.WithOrigins("http://localhost:3000",
-                                             "https://localhost:3000");
+                                             "https://localhost:3000",
+                                             "https://katzenpension-react.vercel.app/"
+                                             )
+                                            .AllowAnyMethod()
+                                            .AllowAnyHeader();
                           
                       });
 });
@@ -76,13 +80,14 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-    app.MapScalarApiReference();
-}
+//if (app.Environment.IsDevelopment())
 
-app.UseHttpsRedirection();
+app.MapOpenApi();
+app.MapScalarApiReference();
+
+
+//Render does this automatically
+//app.UseHttpsRedirection();
 
 //CORS
 app.UseCors(MyAllowSpecificOrigins);
