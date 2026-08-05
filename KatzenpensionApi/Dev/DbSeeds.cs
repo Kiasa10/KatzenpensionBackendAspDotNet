@@ -160,6 +160,7 @@ namespace KatzenpensionApi.Dev
             }
         }
 
+        /*
         private static void TriggerNextJsImageReset()
         {
             using (var client = new HttpClient())
@@ -169,7 +170,7 @@ namespace KatzenpensionApi.Dev
                     var response = client.PostAsync("http://localhost:3000/api/reset-images", null)
                         .GetAwaiter()
                         .GetResult();
-
+                    
                     if (response.IsSuccessStatusCode)
                     {
                         Console.WriteLine("NextJs images successfully deleted.");
@@ -177,6 +178,36 @@ namespace KatzenpensionApi.Dev
                     else
                     {
                         Console.WriteLine("Directory not found/Error deleting files.");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error reaching NextJs Frontend: {e.Message}");
+                }
+            }
+        }
+        */
+        private static async Task TriggerNextJsImageReset()
+        {
+            string frontendUrl = Environment.GetEnvironmentVariable("FRONTEND_URL")
+                ?? "https://katzenpension-react.vercel.app";
+
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var response = client.PostAsync($"{frontendUrl}/api/reset-images", null)
+                        .GetAwaiter()
+                        .GetResult();
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine("NextJs images successfully deleted from Vercel Blob.");
+                    }
+                    else
+                    {
+                        string error = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine($"Error deleting files: {response.StatusCode} - {error}");
                     }
                 }
                 catch (Exception e)
