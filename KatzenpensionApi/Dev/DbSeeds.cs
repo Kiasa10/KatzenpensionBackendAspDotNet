@@ -196,9 +196,7 @@ namespace KatzenpensionApi.Dev
             {
                 try
                 {
-                    var response = client.PostAsync($"{frontendUrl}/api/reset-images", null)
-                        .GetAwaiter()
-                        .GetResult();
+                    var response = await client.PostAsync($"{frontendUrl}/api/reset-images", null);
 
                     if (response.IsSuccessStatusCode)
                     {
