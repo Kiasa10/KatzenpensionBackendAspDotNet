@@ -15,9 +15,12 @@ namespace KatzenpensionApi.Dev
                 //.GetAwaiter & .GetResult (instead of await (signatur)) for deleting images in frontend
                 context.Comments.ExecuteDeleteAsync().GetAwaiter().GetResult();
 
-                //For React, disable when using Angular
-                  TriggerNextJsImageReset().GetAwaiter().GetResult();
+                //For React(local), disable when using Angular
+                //TriggerNextJsImageReset().GetAwaiter().GetResult();
             }
+
+            //For Blob-Deletion(prod), disable for local
+            TriggerNextJsImageReset().GetAwaiter().GetResult();
 
             if (context.Bookings.Any())
             {
