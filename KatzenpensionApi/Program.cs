@@ -29,7 +29,6 @@ builder.Services.AddCors(options =>
                                              )
                                             .AllowAnyMethod()
                                             .AllowAnyHeader();
-                          
                       });
 });
 
@@ -76,9 +75,6 @@ using (var scope = app.Services.CreateScope())
 app.MapOpenApi();
 //Scalar API Reference
 app.MapScalarApiReference();
-
-//Render does this automatically
-//app.UseHttpsRedirection();
 
 //CORS
 app.UseCors(MyAllowSpecificOrigins);
