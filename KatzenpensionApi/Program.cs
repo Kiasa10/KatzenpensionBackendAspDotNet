@@ -26,7 +26,9 @@ builder.Services.AddCors(options =>
                           /*   
                            *   ANGULAR: 
                           policy.WithOrigins("http://localhost:4200",
-                                             "https://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+                                             "https://localhost:4200"
+                                             ).AllowAnyMethod()
+                                              .AllowAnyHeader();
                           */
 
                           /*
@@ -35,9 +37,8 @@ builder.Services.AddCors(options =>
                           policy.WithOrigins("http://localhost:3000",
                                              "https://localhost:3000",
                                              "https://katzenpension-react.vercel.app/"
-                                             )
-                                            .AllowAnyMethod()
-                                            .AllowAnyHeader();
+                                             ).AllowAnyMethod()
+                                              .AllowAnyHeader();
                       });
 });
 
