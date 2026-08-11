@@ -46,11 +46,8 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 builder.Services.AddControllers();
 
-//OpenAPI Explorer for .NET8
-builder.Services.AddEndpointsApiExplorer();
-
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-//builder.Services.AddOpenApi();
+builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IRegularGuestService, RegularGuestService>();
 builder.Services.AddScoped<IRegularGuestRepository, RegularGuestRepository>();
@@ -84,17 +81,13 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-/* exists only in .NET9/10
-app.MapOpenApi();
-app.MapScalarApiReference();
-*/
+if (app.Environment.IsDevelopment()) 
+{
+    app.MapOpenApi();
+    app.MapScalarApiReference();
+}
 
-//Scalar API Reference
-app.MapScalarApiReference();
-
-//Render does this automatically
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 //CORS
 app.UseCors(MyAllowSpecificOrigins);

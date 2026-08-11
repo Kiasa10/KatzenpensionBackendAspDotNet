@@ -15,12 +15,9 @@ namespace KatzenpensionApi.Dev
                 //.GetAwaiter & .GetResult (instead of await (signatur)) for deleting images in frontend
                 context.Comments.ExecuteDeleteAsync().GetAwaiter().GetResult();
 
-                //activate for React(local)
-                //TriggerNextJsImageReset().GetAwaiter().GetResult();
+                //For React, disable when using Angular
+                TriggerNextJsImageReset();
             }
-
-            //For Blob-Deletion(prod), disable for local
-            TriggerNextJsImageReset().GetAwaiter().GetResult();
 
             if (context.Bookings.Any())
             {
@@ -163,8 +160,6 @@ namespace KatzenpensionApi.Dev
             }
         }
         
-        //activate for local
-        /*
         private static void TriggerNextJsImageReset()
         {
             using (var client = new HttpClient())
@@ -190,36 +185,7 @@ namespace KatzenpensionApi.Dev
                 }
             }
         }
-        */
 
-        //disable for local
-        private static async Task TriggerNextJsImageReset()
-        {
-            string frontendUrl = Environment.GetEnvironmentVariable("FRONTEND_URL")
-                ?? "https://katzenpension-react.vercel.app";
-
-            using (var client = new HttpClient())
-            {
-                try
-                {
-                    var response = await client.PostAsync($"{frontendUrl}/api/reset-images", null);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        Console.WriteLine("NextJs images successfully deleted from Vercel Blob.");
-                    }
-                    else
-                    {
-                        string error = await response.Content.ReadAsStringAsync();
-                        Console.WriteLine($"Error deleting files: {response.StatusCode} - {error}");
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Error reaching NextJs Frontend: {e.Message}");
-                }
-            }
-        }
     }
 }
 
