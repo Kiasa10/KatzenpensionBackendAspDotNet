@@ -23,22 +23,12 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          /*   
-                           *   ANGULAR: 
-                          policy.WithOrigins("http://localhost:4200",
-                                                 "https://localhost:4200").AllowAnyMethod().AllowAnyHeader();
-                          */
-
-                          /*
-                           REACT:
-                           */
                           policy.WithOrigins("http://localhost:3000",
                                              "https://localhost:3000",
                                              "https://katzenpension-react.vercel.app/"
                                              )
                                             .AllowAnyMethod()
                                             .AllowAnyHeader();
-                          
                       });
 });
 

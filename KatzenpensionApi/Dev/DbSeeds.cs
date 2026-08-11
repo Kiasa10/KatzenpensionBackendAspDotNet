@@ -15,7 +15,7 @@ namespace KatzenpensionApi.Dev
                 //.GetAwaiter & .GetResult (instead of await (signatur)) for deleting images in frontend
                 context.Comments.ExecuteDeleteAsync().GetAwaiter().GetResult();
 
-                //For React(local), disable when using Angular
+                //activate for React(local)
                 //TriggerNextJsImageReset().GetAwaiter().GetResult();
             }
 
@@ -162,7 +162,8 @@ namespace KatzenpensionApi.Dev
                 context.SaveChanges();
             }
         }
-
+        
+        //activate for local
         /*
         private static void TriggerNextJsImageReset()
         {
@@ -190,6 +191,8 @@ namespace KatzenpensionApi.Dev
             }
         }
         */
+
+        //disable for local
         private static async Task TriggerNextJsImageReset()
         {
             string frontendUrl = Environment.GetEnvironmentVariable("FRONTEND_URL")
