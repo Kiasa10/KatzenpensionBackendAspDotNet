@@ -14,12 +14,9 @@ namespace KatzenpensionApi.Dev
             {
                 //.GetAwaiter & .GetResult (instead of await (signatur)) for deleting images in frontend
                 context.Comments.ExecuteDeleteAsync().GetAwaiter().GetResult();
-
-                //For React(local), disable when using Angular
-                //TriggerNextJsImageReset().GetAwaiter().GetResult();
             }
 
-            //For Blob-Deletion(prod), disable for local
+            //For Blob-Deletion
             TriggerNextJsImageReset().GetAwaiter().GetResult();
 
             if (context.Bookings.Any())
@@ -162,34 +159,6 @@ namespace KatzenpensionApi.Dev
                 context.SaveChanges();
             }
         }
-
-        /*
-        private static void TriggerNextJsImageReset()
-        {
-            using (var client = new HttpClient())
-            {
-                try
-                {
-                    var response = client.PostAsync("http://localhost:3000/api/reset-images", null)
-                        .GetAwaiter()
-                        .GetResult();
-                    
-                    if (response.IsSuccessStatusCode)
-                    {
-                        Console.WriteLine("NextJs images successfully deleted.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Directory not found/Error deleting files.");
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Error reaching NextJs Frontend: {e.Message}");
-                }
-            }
-        }
-        */
         private static async Task TriggerNextJsImageReset()
         {
             string frontendUrl = Environment.GetEnvironmentVariable("FRONTEND_URL")

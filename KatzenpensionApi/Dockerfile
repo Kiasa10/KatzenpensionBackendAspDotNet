@@ -1,5 +1,5 @@
 # 1. Build Stage
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 # csproj kopieren und Wiederherstellung ausführen
@@ -11,7 +11,7 @@ COPY . ./
 RUN dotnet publish -c Release -o /app/out
 
 # 2. Runtime Stage
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app
 
 COPY --from=build /app/out .
@@ -20,8 +20,8 @@ COPY --from=build /app/out .
 ENV DOTNET_hostBuilder__reloadConfigOnChange=false
 
 # Port für Render setzen
-ENV ASPNETCORE_URLS=http://+:8080
-EXPOSE 8080
+ENV ASPNETCORE_URLS=http://+:10000
+EXPOSE 10000
 
 # Hier deine spezifische DLL angeben:
 ENTRYPOINT ["dotnet", "KatzenpensionApi.dll"]

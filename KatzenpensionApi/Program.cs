@@ -23,18 +23,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          /*   
-                           *   ANGULAR: 
-                          policy.WithOrigins("http://localhost:4200",
-                                                 "https://localhost:4200").AllowAnyMethod().AllowAnyHeader();
-                          */
-
-                          /*
-                           REACT:
-                           */
                           policy.WithOrigins("http://localhost:3000",
                                              "https://localhost:3000",
-                                             "https://katzenpension-react.vercel.app/"
+                                             "https://katzenpension-react.vercel.app"
                                              )
                                             .AllowAnyMethod()
                                             .AllowAnyHeader();
@@ -46,11 +37,8 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 builder.Services.AddControllers();
 
-//OpenAPI Explorer for .NET8
-builder.Services.AddEndpointsApiExplorer();
-
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-//builder.Services.AddOpenApi();
+builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IRegularGuestService, RegularGuestService>();
 builder.Services.AddScoped<IRegularGuestRepository, RegularGuestRepository>();
@@ -74,6 +62,7 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<AppDbContext>();
+        context.Database.EnsureCreated();
         DbSeeds.Initialize(context);
     }
     catch (Exception e)
@@ -84,12 +73,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-/* exists only in .NET9/10
 app.MapOpenApi();
-app.MapScalarApiReference();
-*/
-
 //Scalar API Reference
 app.MapScalarApiReference();
 
@@ -100,8 +84,6 @@ app.MapScalarApiReference();
 app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
 
