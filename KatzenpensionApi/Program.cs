@@ -33,10 +33,11 @@ builder.Services.AddCors(options =>
 
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
 builder.Services.AddScoped<IRegularGuestService, RegularGuestService>();
 builder.Services.AddScoped<IRegularGuestRepository, RegularGuestRepository>();
 builder.Services.AddScoped<IRoomService, RoomService>();
@@ -69,13 +70,11 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-    app.MapScalarApiReference();
-}
+app.MapOpenApi();
 
-app.UseHttpsRedirection();
+//Scalar API Reference
+app.MapScalarApiReference();
+
 
 //CORS
 app.UseCors(MyAllowSpecificOrigins);
