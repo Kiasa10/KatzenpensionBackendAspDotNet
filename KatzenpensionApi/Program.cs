@@ -23,8 +23,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:4200",
-                                             "https://localhost:4200"
+                          policy.WithOrigins(
+                                             "https://katzenpension-angular.vercel.app/home"
                                              )
                                              .AllowAnyMethod()
                                              .AllowAnyHeader();
