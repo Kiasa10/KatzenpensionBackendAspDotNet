@@ -23,8 +23,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:3000",
-                                             "https://localhost:3000",
+                          policy.WithOrigins(
                                              "https://katzenpension-react.vercel.app"
                                              )
                                             .AllowAnyMethod()
