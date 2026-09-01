@@ -24,7 +24,7 @@ builder.Services.AddCors(options =>
                       policy =>
                       {
                           policy.WithOrigins(
-                                             "https://katzenpension-angular.vercel.app/home"
+                                             "https://katzenpension-angular.vercel.app"
                                              )
                                              .AllowAnyMethod()
                                              .AllowAnyHeader();
