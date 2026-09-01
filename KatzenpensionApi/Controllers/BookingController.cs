@@ -1,5 +1,4 @@
-﻿
-using KatzenpensionApi.ApiDtos.Mappings;
+﻿using KatzenpensionApi.ApiDtos.Mappings;
 using KatzenpensionApi.ApiDtos.RequestDtos;
 using KatzenpensionApi.ApiDtos.ResponseDtos;
 using KatzenpensionApi.Services.BookingService;
